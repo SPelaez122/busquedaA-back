@@ -2,12 +2,14 @@ services:
   postgresql:
     image: postgres:latest
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: vueloudea
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: vueloudea
     ports:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
+
   busquedaa:
     build: .
     ports:
@@ -16,7 +18,7 @@ services:
       - postgresql
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgresql:5432/vueloudea
-      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: root
 
   prometheus:
@@ -32,5 +34,6 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+
 volumes:
   db-data:
